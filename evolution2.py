@@ -1,6 +1,12 @@
+import os
 import numpy as np
 import math
 import random
+
+abspath = os.path.abspath(__file__)
+dname = os.path.dirname(abspath)
+os.chdir(dname)
+
 
 print("Start")
 
@@ -17,17 +23,26 @@ class Box:
         index = math.floor(random.random() * len(self.item))
         return self.item.pop(index)
     def calculate_total_weight(self):
-        iteration = 60
+        iteration = 25
         w = 0
-        self.score = 0
-        self.overweight = 0
-        for j in range(iteration):
-            for i in self.item:
+        for i in self.item:
+            for j in range(iteration):
                 w += self.check_weight(i)
-            self.weight = w
-            if (self.weight <= 50) :  self.score += self.weight
-            else: self.overweight += 1
-        self.score /= iteration
+        self.weight = w / iteration
+        if (self.weight <= 50) :  self.score = self.weight
+        else :                    self.score = 0
+    # def calculate_total_weight(self):
+        # iteration = 1
+        # w = 0
+        # self.score = 0
+        # self.overweight = 0
+        # for j in range(iteration):
+            # for i in self.item:
+                # w += self.check_weight(i)
+            # self.weight = w
+            # if (self.weight <= 50) :  self.score += self.weight
+            # else: self.overweight += 1
+        # self.score /= iteration
     def check_weight(self, item_number): # TODO: Need to fix these value for each generation
         if 2 <= item_number <= 1001 :  # house 1000
             return max(0, np.random.normal(5, 2, 10)[0])
@@ -78,6 +93,7 @@ class Box:
         else:
             print("ERROR !!")
             return "ERROR !!"
+
 class Individual():
     def __init__(self):
         self.generation = 0
@@ -164,16 +180,49 @@ class Individual():
 i1 = Individual()
 
 def run_test():
-    for i in range(20):
+    next_autosave_version()
+    for i in range(200):
         i1.next_generation()
         if (i % 10 == 0): save_to_file()
-    save_to_file()
+        
+        
+        if self_destruct() == True:
+            save_to_file() 
+            print(" ====> Updating...") 
+            return False 
+    save_to_file() 
 
+
+
+
+manual_version = 0 # Setting
+save_filename = r"submission_temp.csv"
 def save_to_file():
-    with open(r"C:\Users\TattChee\PycharmProjects\santa_gift\submission_%s.csv" % n, 'w+') as submission_file:
+    global save_filename
+    
+    with open(save_filename, 'w+') as submission_file:
         submission_file.write('Gifts\n')
         for i in range(1000):
             submission_file.write(i1.box[i].print())
 
-
+def next_autosave_version():
+    global save_filename
+    
+    global manual_version 
+    
+    auto_save_version = 0
+    n = "v2_%d_%d" % (manual_version, auto_save_version)
+    save_filename = r"submission_%s.csv" % n
+    while os.path.isfile(save_filename): 
+        auto_save_version += 1 
+        n = "v2_0_%d" % auto_save_version
+        save_filename = r"submission_%s.csv" % n
+    
+            
+last_save_time = os.path.getmtime("evolution2.py")
+def self_destruct(): 
+    global last_save_time
+    current_save_time = os.path.getmtime("evolution2.py")
+    return (current_save_time != last_save_time)
+    
 print("END")

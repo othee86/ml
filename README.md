@@ -4,24 +4,20 @@
 
 SETUP
 =====
-supported python3 only
-install python3.x from www.python.org
-then install numpy package with
+  - supported python3 only
+  - install python3.x from www.python.org
+  - install python dependency packages with pip
+```
     python -m pip install numpy
+    python -m pip install click
+```
 
 RUN
 ====
 ```
 python -i evolution2.py
-```
-```
 >>> run_test()
 ```
-Script Existing Limitation
-==========================
-  - fitness is base on total weight improvement, may not accurate/ align to goal
-  - it didnt train with feedback result
-  - it didnt have local training ground to improve the algorithm/ expedite the improvement
 
 Simulator 
 =========
@@ -31,4 +27,9 @@ Usage:
     from Simulator import *
     s = Sim(seed)
     score = s.submit(csv)
+
+```
+or
+```
+    python simulator.py --seed=[seed] --file=[file]
 ```

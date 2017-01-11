@@ -2,7 +2,7 @@ import os
 import numpy as np
 import math
 import random
-
+import click
 
 class Horse:
     def __init__(self, num):
@@ -75,6 +75,8 @@ class Sim:
         self.gifts = [gift for gift in self.gifts if gift is not None]
         gifts_csv.close()
         self.overweight_bags = list()
+        #for gift in s.gifts:
+        #    print("%s = %lf" % (gift.name, gift.weight))
 
     def Gift(self, gift_id):
         for idx, gift in enumerate(self.gifts):
@@ -91,26 +93,31 @@ class Sim:
         score = 0
         for bag in bags:
             gifts_id = bag.split() # gifts are split by space
+            gifts = [self.Gift(gift_id) for gift_id in gifts_id]
+
+            if len(gifts) < 3:
+                continue
+
             weight = 0
-            for gift_id in gifts_id:
-                gift = self.Gift(gift_id)
+            for gift in gifts:
                 weight = weight + gift.weight
+
             if weight <= 50:
                 score = score + weight 
             else:
                 self.overweight_bags.append(bag)
+
         return score
 
-def test_sim():
-    seed = 0
-    csv = "sim_submission.csv"
+@click.command()
+@click.option('--seed', default=0, help='Seed for Pseudo-Random')
+@click.option('--file', default='sim_submission.csv', help='file for submission')
+def test_sim(seed, file):
     s = Sim(seed)
-    #for gift in s.gifts:
-    #    print("%s = %lf" % (gift.name, gift.weight))
-    score = s.Submit(csv)
+    score = s.Submit(file)
 
     print("SantaGiftBags Simulator:")
-    print("  Submission = %s" % csv)
+    print("  Submission = %s" % file)
     print("  Seed       = %d" % seed)
     print("  Score      = %lf" % score)
     #print("  Drop Bag Count = %d" % len(s.overweight_bags))

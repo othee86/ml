@@ -11,12 +11,24 @@ then install numpy package with
 
 RUN
 ====
+```
 python -i evolution2.py
+```
+```
 >>> run_test()
-
+```
 Script Existing Limitation
 ==========================
   - fitness is base on total weight improvement, may not accurate/ align to goal
   - it didnt train with feedback result
   - it didnt have local training ground to improve the algorithm/ expedite the improvement
- 
+
+Simulator 
+=========
+Simulator is made for local training
+Usage:
+```
+    from Simulator import *
+    s = Sim(seed)
+    score = s.submit(csv)
+```

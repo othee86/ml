@@ -70,7 +70,7 @@ def InitGift(gift_id):
 class Sim:
     def __init__(self, seed):
         np.random.seed(seed)
-        gifts_csv = open("gifts.csv", "r")
+        gifts_csv = open("csv/gifts.csv", "r")
         self.gifts = [InitGift(gift_id.strip()) for gift_id in gifts_csv]
         self.gifts = [gift for gift in self.gifts if gift is not None]
         gifts_csv.close()
@@ -103,7 +103,7 @@ class Sim:
                 weight = weight + gift.weight
 
             if weight <= 50:
-                score = score + weight 
+                score = score + weight
             else:
                 self.overweight_bags.append(bag)
 
@@ -111,7 +111,7 @@ class Sim:
 
 @click.command()
 @click.option('--seed', default=0, help='Seed for Pseudo-Random')
-@click.option('--file', default='sim_submission.csv', help='file for submission')
+@click.option('--file', default='csv/sample_submission.csv', help='file for submission')
 def test_sim(seed, file):
     s = Sim(seed)
     score = s.Submit(file)

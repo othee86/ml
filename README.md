@@ -33,3 +33,9 @@ or
 ```
     python simulator.py --seed=[seed] --file=[file]
 ```
+
+TensorFlow
+==========
+Setup
+-----
+https://www.tensorflow.org/get_started/os_setup

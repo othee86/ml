@@ -1,3 +1,8 @@
+
+"""
+This is Santa Uncertain Gifts Simulator
+"""
+
 import os
 import numpy as np
 import math
@@ -71,12 +76,14 @@ class Sim:
     def __init__(self, seed):
         np.random.seed(seed)
         gifts_csv = open("csv/gifts.csv", "r")
-        self.gifts = [InitGift(gift_id.strip()) for gift_id in gifts_csv]
-        self.gifts = [gift for gift in self.gifts if gift is not None]
+        self.all_gifts = [InitGift(gift_id.strip()) for gift_id in gifts_csv]
+        self.all_gifts = [gift for gift in self.all_gifts if gift is not None]
         gifts_csv.close()
+        self.gifts = list()
         self.overweight_bags = list()
-        #for gift in s.gifts:
-        #    print("%s = %lf" % (gift.name, gift.weight))
+        self.total_weight = 0
+        for gift in self.all_gifts:
+            self.total_weight = self.total_weight + gift.weight
 
     def Gift(self, gift_id):
         for idx, gift in enumerate(self.gifts):
@@ -84,17 +91,26 @@ class Sim:
                 return self.gifts.pop(idx)
         assert False, ("GiftId (%s) is not found!" % gift_id)
 
-    def Submit(self, csv):
-        csv = open(csv, "r")
-        bags = [line.strip() for line in csv]
-        csv.close()
-        bags = bags[1:] # remove the line with "Gitfs"
-        
+    def Submit(self, submission):
+        self.gifts = list(self.all_gifts)
+        if "csv" in submission:
+            csv = open(submission, "r")
+            bags = [line.strip() for line in csv]
+            csv.close()
+            bags = bags[1:] # remove the line with "Gitfs"
+        else:
+            bags = submission
+
         score = 0
         for bag in bags:
+	    # RULE:
+	    # No gift maybe used more than once
+	    # gifts are pop by id hence there will not use the same gift more than once
             gifts_id = bag.split() # gifts are split by space
             gifts = [self.Gift(gift_id) for gift_id in gifts_id]
 
+            # RULE:
+	    # Every bag must have 3 or more gifts.
             if len(gifts) < 3:
                 continue
 
@@ -102,6 +118,8 @@ class Sim:
             for gift in gifts:
                 weight = weight + gift.weight
 
+            # RULE:
+	    # Overfilling a bag above 50lb limit will cause the entire bag to count for nothing 
             if weight <= 50:
                 score = score + weight
             else:
@@ -117,10 +135,11 @@ def test_sim(seed, file):
     score = s.Submit(file)
 
     print("SantaGiftBags Simulator:")
-    print("  Submission = %s" % file)
-    print("  Seed       = %d" % seed)
-    print("  Score      = %lf" % score)
-    #print("  Drop Bag Count = %d" % len(s.overweight_bags))
+    print("  Submission  = %s" % file)
+    print("  Seed        = %d" % seed)
+    print("  TotalWeight = %lf" % s.total_weight)
+    print("  Score       = %lf" % score)
+    print("  Drop Bag Count = %d" % len(s.overweight_bags))
 
 if __name__ == '__main__':
     test_sim()

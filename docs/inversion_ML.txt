@@ -1,0 +1,46 @@
+Day 1
+Composition of team
+1. Administrator
+ - Install
+ - Configure
+ - Monitor
+ - Maintainance
+ - Capacity Planning
+2. Developers
+ - Coding
+ - Unit Testing
+ - Integration
+ - Performance Testing
+ - Understanding usecase 
+3. Data Analysis
+ - Identify patterns in data
+ - Very good in high level programming language eg. SQL, HIVE, BigQuery, PIG, Impala etc
+ - Good in Reporting side (eg. BI tools)
+ - Understanding data
+ - Understanding Business
+4. Architects
+ - NFR (non-functional Requirement) e. Security, performance, scalability, availability etc.
+ - Defines Best Practices, Govern Projects
+ - Enforcing the standard (reviews)
+ - High level architecture docs
+ - Choosing Tech stack
+ - Designing Docs
+5. Data Scientists
+	Hacking + Statistics + Business = data scientist.
+	Chief Data Scientists -> Data Scientists
+	- End to end responsibility
+	
+	
+Big Data
+ - Volume > TBs of data
+ - Variety
+	- Structured - regid schema
+		- CSV, relational DB
+	- semi-structured - schema is optional
+		- xml, excel
+	- unstructured - no schema
+		- email, docs
+ - Velocity - data coming at a fast rate
+ - Veracity - messiness of data
+ - Value - actionable insights
+ 
